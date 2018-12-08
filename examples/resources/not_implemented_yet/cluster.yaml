@@ -1,0 +1,17 @@
+# Cluster - OCI containerengine cluster resource
+
+apiVersion: ocice.oracle.com/v1alpha1
+kind: Cluster
+metadata:
+  name: example-cluster
+spec:
+  compartmentRef: default
+  vcnRef: example
+  serviceLbSubnetRefs:
+  - example-subnet1
+  - example-subnet2
+  kubernetesVersion: 1.10.3
+  options:
+    kubernetesNetworkConfig:
+      podsCidr: 10.244.0.0/16
+      servicesCidr: 10.96.0.0/16

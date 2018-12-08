@@ -1,0 +1,16 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := .Values.compartmentRef -}}
+{{- range .Values.clusters }}
+---
+apiVersion: ocice.oracle.com/v1alpha1
+kind: Cluster
+metadata:
+  name: {{ .name }}
+spec:
+  compartmentRef: {{ default $compartment .compartmentRef }}
+  vcnRef: {{ .vcnRef }}
+  serviceLbSubnetRefs: {{ .serviceLbSubnetRefs }}
+  kubernetesVersion: {{ default "v1.11.1" .kubernetesVersion }}
+  options: {{ .options }}
+{{- end }}

@@ -1,0 +1,109 @@
+# Default values for oci.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# compartments:
+#   - name: default
+
+# vcns:
+#   - name: default
+#     cidrBlock: "10.0.0.0/16"
+#     compartmentRef: default
+#     dnsLabel: default
+
+# internetGateways:
+#   - name: default
+#     compartmentRef: default
+#     vcnRef: default
+#     isEnabled: true
+
+# routeTables:
+#   - name: default
+#     compartmentRef: default
+#     vcnRef: default
+#     routeRules:
+#       - cidrBlock: "0.0.0.0/0"
+#         networkEntityId: default
+
+# securityRuleSets:
+#   - name: srs
+#     vcnRef: vcn
+#     egressSecurityRules:
+#       - destination: 0.0.0.0/0
+#         protocol: all
+#     ingressSecurityRules:
+#       - source: 0.0.0.0/0
+#         protocol: "6"
+#         tcpOptions:
+#           destinationPortRange:
+#             min: 22
+#             max: 22
+
+# subnets:
+#   - name: ad1
+#     vcnRef: vcn
+#     dnsLabel: ad1
+#     availabilityDomain: yhkn:PHX-AD-1
+#     cidrBlock: 10.0.101.0/24
+#     routetableRef: rt
+#     securityrulesetRefs:
+#     - srs
+#   - name: ad2
+#     vcnRef: vcn
+#     dnsLabel: ad2
+#     availabilityDomain: yhkn:PHX-AD-2
+#     cidrBlock: 10.0.102.0/24
+#     routetableRef: rt
+#     securityrulesetRefs:
+#     - srs
+#   - name: ad3
+#     vcnRef: vcn
+#     dnsLabel: ad3
+#     availabilityDomain: yhkn:PHX-AD-3
+#     cidrBlock: 10.0.103.0/24
+#     routetableRef: rt
+#     securityrulesetRefs:
+#     - srs
+
+# instances:
+#   - name: i1
+#     availabilityDomain: yhkn:PHX-AD-1
+#     subnetRef: ad1
+#   - name: i2
+#     availabilityDomain: yhkn:PHX-AD-2
+#     subnetRef: ad2
+#   - name: i3
+#     availabilityDomain: yhkn:PHX-AD-3
+#     subnetRef: ad3
+#     shape: "VM.Standard1.1"
+#     image: "Canonical-Ubuntu-18.04-2018.10.16-0"
+#     metadata:
+#       ssh_authorized_keys: "ssh-rsa AAAA..."
+#       user_data: |-
+#         #!/bin/bash
+#         iptables -F
+#         apt-get -y update
+#         apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+#         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#         apt-key fingerprint 0EBFCD88
+#         add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#         apt-get -y update
+#         apt-get -y install docker-ce
+
+# clusters:
+#   - name: cluster1
+#     vcnRef: vcn
+#     serviceLbSubnetRefs:
+#       - ad1
+#       - ad2
+#       - ad3
+#     kubernetesVersion: v1.11.1
+#     options:
+#      kubernetesNetworkConfig:
+#      podsCidr: 10.244.0.0/16
+#      servicesCidr: 10.96.0.0/16
+
+# databases:
+#   - name: adb1
+#     cpuCoreCount: 1
+#     dataStorageSizeInTBs: 1

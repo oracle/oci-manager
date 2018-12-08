@@ -1,0 +1,24 @@
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: SecurityRuleSet
+metadata:
+  name: securityruleset1
+  namespace: {{ .Values.namespace }}
+spec:
+  compartmentRef: {{ .Values.compartment }}
+  vcnRef: {{ .Values.virtual_network }}
+  egressSecurityRules:
+  - destination: 0.0.0.0/0
+    protocol: all
+  ingressSecurityRules:
+  - source: {{ .Values.cidr_block }}
+    protocol: '6'
+    tcpOptions:
+      destinationPortRange:
+        min: 1
+        max: 65535
+  - source: 0.0.0.0/0
+    protocol: '6'
+    tcpOptions:
+      destinationPortRange:
+        min: 22
+        max: 22

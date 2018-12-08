@@ -1,0 +1,8 @@
+oci:
+  user: <INSERT USER OCI ID>
+  fingerprint: <INSERT USER OCI ID>
+  tenancy: <INSERT USER OCI ID>
+  apikey: |-
+    -----BEGIN RSA PRIVATE KEY-----
+      <INSERT OCI API PRIVATE KEY PEM>
+    -----END RSA PRIVATE KEY-----

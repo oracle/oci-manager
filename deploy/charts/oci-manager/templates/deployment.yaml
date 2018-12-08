@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+        resources:
+          {{ toYaml .Values.resources | indent 12 }}
+        command:
+          - /oci-manager
+          - --ociconfig=/etc/oci/config
+          - --logtostderr=true
+          - --v=5
+        volumeMounts:
+          - name: oci-volume
+            mountPath: /etc/oci
+            readOnly: true
+          - name: oci-apikey-volume
+            mountPath: /etc/oci-apikey
+            readOnly: true
+      volumes:
+        - name: oci-volume
+          configMap:
+            name: oci
+        - name: oci-apikey-volume
+          secret:
+            secretName: oci-apikey

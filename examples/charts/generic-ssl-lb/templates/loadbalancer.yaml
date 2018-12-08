@@ -1,0 +1,11 @@
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: LoadBalancer
+metadata:
+  name: lb-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  compartmentRef: {{ .Values.compartment }}
+  shapeName: {{ .Values.lb_shape }}
+  subnetRefs: {{ .Values.lb_subnets }}
+  isPrivate: {{ .Values.lb_is_private }} 
+

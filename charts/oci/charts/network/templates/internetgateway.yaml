@@ -1,0 +1,18 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $region := .Values.region -}}
+{{- $vcn := .Values.vcn -}}
+{{- range $name, $gateway := .Values.gateways }}
+{{- if ($gateway.internet) }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: InternetGateway
+metadata:
+  name: {{ $release }}-{{ $name }}
+spec:
+  compartmentRef: {{ $compartment }}
+  vcnRef: {{ default $release $vcn }}
+  isEnabled: {{ $gateway.internet }}
+{{- end }}
+{{- end }}

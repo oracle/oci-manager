@@ -1,0 +1,8 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Network
+metadata:
+  name: test
+  labels:
+    app: test
+spec:
+  cidrBlock: 10.0.0.0/16

@@ -1,0 +1,78 @@
+#
+# example stack/composition for a most basic stack of network-security-compute-loadbalancer service
+# using 3 instances/replicas deployed to 3 availability domains
+#
+# Network - defaults to 10.0.0.0/16
+# creates: vcn, route table, internet gateway (in this example)
+# advanced example can also create dhcp options, drg, peering gateway, cross connect
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Network
+metadata:
+  name: net
+  labels:
+    app: example
+---
+#
+# Security - defaults to only allow ssh port and allow all egress
+# compute and loadbalancer select which they want and create or update a static security list for their subnets
+# creates: security-list
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Security
+metadata:
+  name: sec-web
+  labels:
+    type: web
+spec:
+  networkSelector:
+    app: example
+  ingress:
+    - "0.0.0.0/0 tcp 80"
+    - "0.0.0.0/0 tcp 443"
+---
+#
+# Compute - defaults to a 1-core 1-gb ram vm instance
+# for other shapes use template resourceRequirements or specific image/shape via annotation (covered in advanced)
+# creates: subnets and instances (in this example)
+# advanced will also create volume, volume-backup
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Compute
+metadata:
+  name: compute
+  labels:
+    app: example
+spec:
+  network: net
+  securitySelector:
+    type: web
+  replicas: 3
+  template:
+    osType: oracle-linux
+    osVersion: "7.5"
+    userData:
+      shellscript: |
+        #!/bin/bash -x
+        yum -y install httpd
+        systemctl start httpd ; systemctl enable httpd
+        systemctl stop firewalld ; systemctl disable firewalld
+        printf "\nhello world\n" > /var/www/html/index.html
+---
+#
+# LoadBalancer - defaults on protocol and health check, timeouts, retry values
+# creates - loadbalancer, listener, backend-set, backends (in this example)
+# advanced will also create ssl certificate
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  name: lb
+spec:
+  backendPort: 80
+  computeSelector:
+    app: example
+  listeners:
+    - port: 80
+  securitySelector:
+    type: web

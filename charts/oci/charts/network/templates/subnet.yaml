@@ -1,0 +1,25 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $region := .Values.region -}}
+{{- $vcn := .Values.vcn -}}
+{{- range $name, $subnet := .Values.subnets }}
+{{- $security := $subnet.security }}
+{{- $route := $subnet.route }}
+{{- range $subnet.ranges }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Subnet
+metadata:
+  name: {{ $release }}-{{ $name }}-{{ .ad | replace "AD-" "" }}
+spec:
+  compartmentRef: {{ $compartment }}
+  vcnRef: {{ default $release $vcn }}
+  dnsLabel: {{ $name | replace "-" "" | lower | trunc 14 }}{{ .ad | replace "AD-" "" }}
+  availabilityDomain: {{ $region }}-{{ .ad }}
+  cidrBlock: {{ .cidr }}
+  routetableRef:  {{ if (.routetable) }}{{ .routetable }}{{ else }}{{ $release }}-{{ $route }}{{ end }}
+  securityrulesetRefs:
+    - {{ $release }}-{{ $security }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oci
+data:
+  config: |-
+    [DEFAULT]
+    tenancy={{ .Values.oci.tenancy }}
+    region={{ .Values.oci.region }}
+    user={{ .Values.oci.user }}
+    fingerprint={{ .Values.oci.fingerprint }}
+    key_file=/etc/oci-apikey/key

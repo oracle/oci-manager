@@ -1,0 +1,116 @@
+---
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Network
+metadata:
+  name: kubernetes
+  labels:
+    app: kubernetes
+spec:
+  cidrBlock: 10.0.0.0/16
+---
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Security
+metadata:
+  name: master
+  labels:
+    component: master
+spec:
+  networkSelector:
+    app: kubernetes
+  ingress:
+    - "0.0.0.0/0 tcp 22"
+    - "0.0.0.0/0 tcp 6443"
+---
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Compute
+metadata:
+  name: master
+  labels:
+    app: kubernetes
+  annotations:
+    computes.cloud.k8s.io/image: Canonical-Ubuntu-16.04-2018.06.18-0
+    computes.cloud.k8s.io/shape: VM.Standard1.2
+spec:
+  network: kubernetes
+  securitySelector:
+    component: master
+  replicas: 1
+  template:
+    osType: ubuntu
+    osVersion: "16.04"
+    sshKeys: [""]
+    userData:
+      shellscript: |
+        #!/bin/bash -x
+        iptables -F
+        sysctl net.bridge.bridge-nf-call-iptables=1
+
+        apt-get update
+        apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+        add-apt-repository "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
+        apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+
+        apt-get update && apt-get install -y apt-transport-https curl
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+        deb http://apt.kubernetes.io/ kubernetes-xenial main
+        EOF
+        apt-get update
+        apt-get install -y kubelet kubeadm kubectl
+
+        kubeadm init --pod-network-cidr=10.244.0.0/16 --token=oh6l9d.zdrymhgg3yvk7m6b
+        export KUBECONFIG=/etc/kubernetes/admin.conf
+        kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+---
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Security
+metadata:
+  name: worker
+  labels:
+    component: worker
+spec:
+  networkSelector:
+    app: kubernetes
+  ingress:
+    - "0.0.0.0/0 tcp 22"
+    - "0.0.0.0/0 tcp 10250"
+# ---
+# apiVersion: cloud.k8s.io/v1alpha1
+# kind: Compute
+# metadata:
+#   name: worker
+#   labels:
+#     app: kubernetes
+#   annotations:
+#     computes.cloud.k8s.io/image: Canonical-Ubuntu-16.04-2018.06.18-0
+#     computes.cloud.k8s.io/shape: VM.Standard1.2
+# spec:
+#   network: kubernetes
+#   securitySelector:
+#     component: worker
+#   replicas: 2
+#   template:
+#     osType: ubuntu
+#     osVersion: "16.04"
+#     sshKeys: [""]
+#     userData: |
+#       #!/bin/bash -x
+#       iptables -F
+#       sysctl net.bridge.bridge-nf-call-iptables=1
+#
+#       apt-get update
+#       apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+#       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+#       add-apt-repository "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
+#       apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+#
+#       apt-get update && apt-get install -y apt-transport-https curl
+#       curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+#       cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+#       deb http://apt.kubernetes.io/ kubernetes-xenial main
+#       EOF
+#       apt-get update
+#       apt-get install -y kubelet kubeadm kubectl
+#
+#       # kubeadm join --token=oh6l9d.zdrymhgg3yvk7m6b --discovery-token-unsafe-skip-ca-verification

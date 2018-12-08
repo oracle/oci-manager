@@ -1,0 +1,12 @@
+{{- if (.Values.compartment) }}
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+apiVersion: ociidentity.oracle.com/v1alpha1
+kind: Compartment
+metadata:
+  name: {{ .Values.compartment }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+{{- end }}

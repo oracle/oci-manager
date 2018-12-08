@@ -1,0 +1,20 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := .Values.compartmentRef -}}
+{{- range .Values.volumes }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Volume
+metadata:
+  name: {{ .name }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  compartmentRef: {{ $compartment }}
+  instanceRef: {{ .instanceRef }}
+  availabilityDomain: {{ .availabilityDomain }}
+  displayName: {{ .name }}
+  sizeInGBs: {{ default "50" .sizeInGBs }}
+  # attachmentType: iscsi
+{{- end }}

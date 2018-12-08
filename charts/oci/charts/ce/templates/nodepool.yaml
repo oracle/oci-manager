@@ -1,0 +1,23 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $network := default .Release.Name .Values.network -}}
+{{- $version := .Values.version -}}
+{{- range $name, $nodepool := .Values.nodepools }}
+---
+apiVersion: ocice.oracle.com/v1alpha1
+kind: NodePool
+metadata:
+  name: {{ $release }}-{{ $name }}
+spec:
+  compartmentRef: {{ $compartment }}
+  clusterRef: {{ $release }}
+  subnetRefs:
+    - {{ $network }}-{{ .subnet }}-1
+    - {{ $network }}-{{ .subnet }}-2
+    - {{ $network }}-{{ .subnet }}-3
+  kubernetesVersion: {{ default $version .version }}
+  nodeImageName: {{ .image }}
+  nodeShape: {{ .shape }}
+  quantityPerSubnet: {{ .count }}
+{{- end }}

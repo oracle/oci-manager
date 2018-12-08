@@ -1,0 +1,16 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- range .Values.internetGateways }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: InternetGateway
+metadata:
+  name: {{ .name }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  compartmentRef: {{ default .name .compartmentRef }}
+  vcnRef: {{ default .name .vcnRef }}
+  isEnabled: {{ default true .isEnabled }}
+{{- end }}

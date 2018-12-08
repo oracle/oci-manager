@@ -1,0 +1,19 @@
+#
+# Security - defaults to only allow ssh port and allow all egress
+# compute and loadbalancer select which they want and create or update a static security list for their subnets
+# creates: security-list
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Security
+metadata:
+  name: sec-test
+  namespace: default
+  labels:
+    type: web
+spec:
+  networkSelector:
+    app: test
+  ingress:
+    - "0.0.0.0/0 tcp 22"
+    - "0.0.0.0/0 tcp 80"
+    - "0.0.0.0/0 tcp 443"

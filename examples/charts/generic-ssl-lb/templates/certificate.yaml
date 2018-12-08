@@ -1,0 +1,12 @@
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: Certificate
+metadata:
+  name: cert-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+spec:
+  certificateName: cert-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+  loadBalancerRef: lb-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+  publicCertificate: |
+{{ .Files.Get .Values.certificate_cert_file | indent 4 }}
+  privateKey: |
+{{ .Files.Get .Values.certificate_private_key_file | indent 4 }}
+  passphrase: {{ .Values.certificate_passphrase }}

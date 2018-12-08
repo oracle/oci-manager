@@ -1,0 +1,17 @@
+# defaults and configuration of oci resources
+compartment: mike-dev
+ssh_authorized_keys: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCAqsgqardo1B7PnHYvHGwWkNhYTkaw/0651MrubxcCdqfjU+PbSuCqu6fefwDU4Ans4fgxFvU2tpS4ra83sA5F2Cd5JvfDFayK5LzBkJNcN53kCM/3xIgn0EEjFO80o/U35KpRxFQCd0xORroaw/rZWFrXRFuohCC0TfzCeylRT7nxF9Rp5S006XlzuRrs9T1SVA3S49jG+DcYBgxKjCxHfz2T2KATzZSbb+ILjfLLITnKQ1+23WXTtoIKyKd39cXd79lBkoVMIkKINkNUvO/IfRrmEUZJv45jWdqIrgAZLsCGYJOPF4I5KuOl+fX81h4+OARaB42ZmaCq9Z+mQUqX
+
+cluster_name: c1
+region: phx # PHX or US-ASHBURN
+
+availability_domains: 3
+instances_per_availability_domain: 1
+
+shape: VM.Standard1.1
+image: Oracle-Linux-7.4-2018.01.10-0
+
+namespace: default
+virtual_network: vcn1
+cidr_block: 10.0.0.0/16
+ad_prefix: yhkn

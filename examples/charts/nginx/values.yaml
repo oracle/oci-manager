@@ -1,0 +1,7 @@
+# Default values for nginx.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+compartment: default
+shape: VM.Standard1.1
+image: Canonical-Ubuntu-16.04-2017.08.22-0
+sshkey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC576VcQiYf1x7Fwso32DDSW7p92II8D5dI0EdK7cQy5zt5Hz7JmwrNkWfd9VYXzOuXh2lNWCr7i5TSIkoE6QmyAEN0e52H+f69tiZD95FnxcOoce9/Srk5G+tqpV1zIG3ittItRbDFNMYg0+0loKd1MP10xv8B4UK3iE2RBIvIy4YUwUPk/QLYezD0Qi5oAjB4Tupg3zrGGMhkYJeK11R9QxzWydBIX094X+KnrIw/OykXMFgkPmFsDrQFCsDh06zZxnY7XaXohlE8RqIXYH9IKkTJRrhxmx4yAtOTsGmAHUoqFqUHO7S2TVsnumM5deNVEf6Y70dAJRCiDkrYLLcf kfilipovski@designare

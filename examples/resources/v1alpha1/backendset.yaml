@@ -1,0 +1,20 @@
+# // BackendSet The configuration of a load balancer backend set.
+# // For more information on backend set configuration, see
+# // Managing Backend Sets (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/tasks/managingbackendsets.htm).
+
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: BackendSet
+metadata:
+  name: example-backendset
+spec:
+  loadBalancerRef: example-lb
+  protocol: HTTP
+  # ROUND_ROBIN, LEAST_CONNECTIONS, IP_HASH
+  policy: ROUND_ROBIN
+  healthChecker:
+    port: 80
+    protocol: HTTP
+    urlPath: /index.html
+    timeoutInMillis: 3000
+    intervalInMillis: 10000
+    returnCode: 200

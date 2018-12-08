@@ -1,0 +1,11 @@
+apiVersion: ociidentity.oracle.com/v1alpha1
+kind: Policy
+metadata:
+  name: oke-service
+  namespace: {{ .Values.namespace }}
+spec:
+  compartmentRef: {{ .Values.root_compartment_id }}
+  description: "oci-manager example oke chart for deploying prerequisites for oke"
+  statements: 
+    - "allow service OKE to manage all-resources in tenancy"
+  

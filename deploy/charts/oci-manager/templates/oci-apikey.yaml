@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oci-apikey
+type: Opaque
+data:
+  key:
+    {{ .Values.oci.apikey | b64enc | indent 4 }}

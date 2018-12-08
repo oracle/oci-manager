@@ -1,0 +1,12 @@
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: Listener
+metadata:
+  name: listener-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  loadBalancerRef: lb-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+  certificateRef: cert-{{ .Values.cluster_name }}-{{ .Values.service_name }}
+  defaultBackendSetName: backendset-{{ .Values.cluster_name }}-{{ .Values.service_name }}-1
+  port: {{ .Values.lb_listener_port }}
+  protocol: {{ .Values.lb_listener_protocol }}
+  idleTimeout: 3

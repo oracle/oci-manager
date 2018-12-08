@@ -1,0 +1,96 @@
+apiVersion: oci.oracle.com/v1
+kind: Compartment
+metadata:
+  name: vz-dev
+  namespace: vz
+  labels:
+    assembly: test
+spec:
+  description: Default Compartment
+---
+apiVersion: oci.oracle.com/v1
+kind: VirtualNetwork
+metadata:
+  name: virtualnetwork1
+  namespace: vz
+spec:
+  compartmentRef: vz-dev
+  cidrBlock: 10.0.0.0/16
+  dnsLabel: virtualnetwork1
+---
+apiVersion: oci.oracle.com/v1
+kind: InternetGateway
+metadata:
+  name: internetgateway1
+  namespace: vz
+spec:
+  compartmentRef: vz-dev
+  virtualnetworkRef: virtualnetwork1
+  isEnabled: true
+---
+apiVersion: oci.oracle.com/v1
+kind: RouteTable
+metadata:
+  name: routetable1
+  namespace: vz
+spec:
+  compartmentRef: vz-dev
+  virtualnetworkRef: virtualnetwork1
+  routeRules:
+  - cidrBlock: 0.0.0.0/0
+    networkEntityId: internetgateway1
+---
+apiVersion: oci.oracle.com/v1
+kind: SecurityRuleSet
+metadata:
+  name: securityruleset1
+  namespace: vz
+spec:
+  compartmentRef: vz-dev
+  virtualnetworkRef: virtualnetwork1
+  egressSecurityRules:
+  - destination: 0.0.0.0/0
+    protocol: all
+  ingressSecurityRules:
+  - source: 0.0.0.0/0
+    protocol: '6'
+    tcpOptions:
+      destinationPortRange:
+        min: 22
+        max: 22
+  - source: 0.0.0.0/0
+    protocol: '6'
+    tcpOptions:
+      destinationPortRange:
+        min: 80
+        max: 80
+---
+apiVersion: oci.oracle.com/v1
+kind: Subnet
+metadata:
+  name: virtualnetwork1.subnet1
+  namespace: vz
+spec:
+  compartmentRef: vz-dev
+  virtualnetworkRef: virtualnetwork1
+  availabilityDomain: yhkn:PHX-AD-1
+  cidrBlock: 10.0.10.0/24
+  dnsLabel: subnet1
+  routetableRef: routetable1
+  securityrulesetRefs:
+  - securityruleset1
+---
+apiVersion: oci.oracle.com/v1
+kind: Instance
+metadata:
+  name: instance1
+  namespace: vz
+spec:
+  compartmentRef: vz-dev
+  availabilityDomain: yhkn:PHX-AD-1
+  subnetRef: virtualnetwork1.subnet1
+  shape: VM.Standard1.1
+  image: Canonical-Ubuntu-16.04-2018.01.11-0
+  metadata:
+    ssh_authorized_keys: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC576VcQiYf1x7Fwso32DDSW7p92II8D5dI0EdK7cQy5zt5Hz7JmwrNkWfd9VYXzOuXh2lNWCr7i5TSIkoE6QmyAEN0e52H+f69tiZD95FnxcOoce9/Srk5G+tqpV1zIG3ittItRbDFNMYg0+0loKd1MP10xv8B4UK3iE2RBIvIy4YUwUPk/QLYezD0Qi5oAjB4Tupg3zrGGMhkYJeK11R9QxzWydBIX094X+KnrIw/OykXMFgkPmFsDrQFCsDh06zZxnY7XaXohlE8RqIXYH9IKkTJRrhxmx4yAtOTsGmAHUoqFqUHO7S2TVsnumM5deNVEf6Y70dAJRCiDkrYLLcf kfilipovski@designare
+    user_data: IyEvYmluL2Jhc2gKCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCAteSBuZ2lueC1saWdodAppcHRhYmxlcyAtRgo=

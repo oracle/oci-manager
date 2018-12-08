@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: oci-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: oci-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - events
+  - namespaces
+  - secrets
+  verbs:
+  - "*"
+- apiGroups:
+  - "apiextensions.k8s.io"
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - "*"
+- apiGroups:
+  - ocicore.oracle.com
+  resources:
+  - "*"
+  verbs:
+  - "*" 
+- apiGroups:
+  - ociidentity.oracle.com
+  resources:
+  - "*"
+  verbs:
+  - "*" 
+- apiGroups:
+  - ocilb.oracle.com
+  resources:
+  - "*"
+  verbs:
+  - "*" 
+- apiGroups:
+  - ocice.oracle.com
+  resources:
+  - "*"
+  verbs:
+  - "*" 
+- apiGroups:
+  - ocidb.oracle.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - cloud.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*" 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: oci-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: oci-manager-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: oci-system

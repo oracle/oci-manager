@@ -1,0 +1,14 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- range .Values.compartments }}
+---
+apiVersion: ociidentity.oracle.com/v1alpha1
+kind: Compartment
+metadata:
+  name: {{ .name }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  description:  OCI Manager Compartment
+{{- end }}

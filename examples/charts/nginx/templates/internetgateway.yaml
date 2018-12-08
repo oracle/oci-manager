@@ -1,0 +1,9 @@
+apiVersion: oci.oracle.com/v1
+kind: InternetGateway
+metadata:
+  name: {{ .Values.compartment }}.internetgateway.{{ .Chart.Name }}
+spec:
+  displayName: {{ .Chart.Name }}
+  compartmentRef: {{ .Values.compartment }}
+  virtualnetworkRef: {{ .Values.compartment }}.virtualnetwork.{{ .Chart.Name }}
+  isEnabled: true

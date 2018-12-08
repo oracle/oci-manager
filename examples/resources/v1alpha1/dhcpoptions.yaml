@@ -1,0 +1,12 @@
+# // Getting Started with DhcpOptions https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpOptions/CreateDhcpOptions
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: DhcpOption
+metadata:
+  name: example-dhcp
+spec:
+  compartmentRef: default
+  vcnRef: example
+  options:
+  - type: DomainNameServer
+    customDnsServers: ["127.0.0.1"]
+    serverType: CustomDnsServer

@@ -1,0 +1,19 @@
+#
+# Cloud Cluster example 2:
+# - Managed Cluster by OKE
+# - OKE limits worker/nodepool images to Oracle-Linux 7.4 or 7.5
+# - replicas will be divided by 3 to get instances per ad / az ; min 3
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Cluster
+metadata:
+  name: mc1
+spec:
+  version: 1.11.1
+  isManaged: true
+  worker:
+    replicas: 3
+    template:
+      osType: Oracle-Linux
+      osVersion: "7.5"
+      sshKeys: ["change-me"]

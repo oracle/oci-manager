@@ -1,0 +1,11 @@
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: RouteTable
+metadata:
+  name: routetable1
+  namespace: {{ .Values.namespace }}
+spec:
+  compartmentRef: {{ .Values.compartment }}
+  vcnRef: {{ .Values.virtual_network }}
+  routeRules:
+  - cidrBlock: 0.0.0.0/0
+    networkEntityId: ig1

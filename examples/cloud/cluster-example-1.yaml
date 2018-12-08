@@ -1,0 +1,39 @@
+#
+# Cloud Cluster example 1:
+# - Cluster via: 
+#   - LoadBalancer (to generate proper/static apiserver certs using lb ip)
+#   - 1 Network and 2 Security resources for masters and workers
+#   - 2 Computes (scalable instance sets for masters and workers)
+#   - kubeadm based via cloud-init user-data
+#
+# notes:
+# - currently must supply a token and ca cert/key for kubeadm to create rest of TLS and oci-manager generate a client-cert kubeconfig
+# - only tested with ubuntu image in annotation
+#
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Cluster
+metadata:
+  name: cc2
+  annotations:
+    oci.oracle.com/instance.image: Canonical-Ubuntu-16.04-2018.06.18-0
+spec:
+  version: 1.11.2
+  token: change-me
+  ca:
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      change-me
+      -----END CERTIFICATE-----
+    key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      change-me
+      -----END RSA PRIVATE KEY-----
+  master:
+    replicas: 1
+    template:
+      sshKeys: ["change-me"]
+  worker:
+    replicas: 3
+    template:
+      sshKeys: ["change-me"]
+

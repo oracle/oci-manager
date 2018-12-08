@@ -1,0 +1,20 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $region := .Values.region -}}
+{{- $vcn := .Values.vcn -}}
+{{- range $name, $route := .Values.routes }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: RouteTable
+metadata:
+  name: {{ $release }}-{{ $name }}
+spec:
+  compartmentRef: {{ $compartment }}
+  vcnRef: {{ default $release $vcn }}
+  routeRules:
+  {{- range $route }}
+    - cidrBlock: {{ .cidr | quote }}
+      networkEntityId: {{ $release }}-{{ .gateway }}
+  {{- end }}
+{{- end }}

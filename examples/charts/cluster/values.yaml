@@ -1,0 +1,13 @@
+# Default values for cluster.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Generate a custom token with `kubeadm token generate`
+token: oh6l9d.zdrymhgg3yvk7m6b
+endpoint: {{ .Release.Name }}-0.{{ .Release.Name }}11.{{ .Release.Name }}.oraclevcn.com:6443
+
+master:
+  replicas: 1
+
+worker:
+  replicas: 2

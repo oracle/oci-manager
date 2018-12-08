@@ -1,0 +1,14 @@
+# Default values for oci-manager.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+image:
+  pullPolicy: Always
+oci:
+  user: <INSERT USER OCI ID>
+  fingerprint: <INSERT USER OCI ID>
+  tenancy: <INSERT USER OCI ID>
+  apikey: |-
+    -----BEGIN RSA PRIVATE KEY-----
+      <INSERT OCI API PRIVATE KEY PEM>
+    -----END RSA PRIVATE KEY-----

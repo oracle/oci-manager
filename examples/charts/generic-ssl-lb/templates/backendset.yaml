@@ -1,0 +1,25 @@
+{{- $root := . -}}
+{{ range $i, $e := until (int .Values.availability_domains) }}
+{{-  $ad := $i | add 1 -}}
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: BackendSet
+metadata:
+  name: backendset-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}-{{ $ad }}
+  namespace: {{ $root.Values.namespace }}
+spec:
+  backendSetRef: backendset-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}-{{ $ad }}
+  loadBalancerRef: lb-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}
+  port: {{ $root.Values.lb_backend_port }}
+  protocol: {{ $root.Values.lb_backend_protocol }}
+  policy: {{ $root.Values.lb_backend_policy }}
+  healthChecker:
+      port: {{ $root.Values.lb_backend_port }}
+      protocol: {{ $root.Values.lb_backend_protocol }}
+      urlPath: {{ $root.Values.lb_backend_health_path }}
+      intervalInMillis: 10000
+      responseBodyRegex: .*
+      retries: 3
+      returnCode: {{ $root.Values.lb_backend_health_return_code }}
+      timeoutInMillis: 3000
+---
+{{ end }}

@@ -1,0 +1,9 @@
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Vcn
+metadata:
+  name: {{ .Values.virtual_network }}
+  namespace: {{ .Values.namespace }}
+spec:
+  compartmentRef: {{ .Values.compartment }}
+  cidrBlock: {{ .Values.cidr_block }}
+  dnsLabel: {{ .Values.region | lower | replace "-" "" }}{{ .Values.cluster_name }}

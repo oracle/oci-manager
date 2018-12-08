@@ -1,0 +1,7 @@
+.wercker
+debug
+kubeconfig
+.idea
+.DS_Store
+bin
+tmp

@@ -1,0 +1,19 @@
+# Default values for oci compute.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# prefix: foo
+# region: yhkn:PHX
+# compartment: default
+# shape: "VM.Standard1.1"
+# image: "Canonical-Ubuntu-18.04-2018.10.16-0"
+#
+# instances:
+#   1:
+#     subnet: public1
+#     ad: AD-1
+#     metadata:
+#       # ssh_authorized_keys: "ssh-rsa AAAA..."
+#       user_data: |-
+#         #/bin/bash
+#         apt-get -y update

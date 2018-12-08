@@ -1,0 +1,19 @@
+# // Vnic A virtual network interface card. Each VNIC resides in a subnet in a VCN.
+# // An instance attaches to a VNIC to obtain a network connection into the VCN
+# // through that subnet. Each instance has a *primary VNIC* that is automatically
+# // created and attached during launch. You can add *secondary VNICs* to an
+# // instance after it's launched. For more information, see
+# // Virtual Network Interface Cards (VNICs) (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm).
+# // Each VNIC has a *primary private IP* that is automatically assigned during launch.
+# // You can add *secondary private IPs* to a VNIC after it's created. For more
+# // information, see CreatePrivateIp and
+# // IP Addresses (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIPaddresses.htm).
+# // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+# // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+# // Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+
+# apiVersion: ocicore.oracle.com/v1alpha1
+# kind: Vnic
+# metadata:
+#   name: vnic.example
+# spec:

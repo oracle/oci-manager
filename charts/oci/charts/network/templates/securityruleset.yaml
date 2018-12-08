@@ -1,0 +1,30 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $vcn := .Values.vcn -}}
+{{- range $name, $security := .Values.security }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: SecurityRuleSet
+metadata:
+  name: {{ $release }}-{{ $name }}
+spec:
+  compartmentRef: {{ $compartment }}
+  vcnRef: {{ default $release $vcn }}
+  egressSecurityRules:
+  {{- range $security.egress }}
+    - destination: {{ .destination | quote }}
+      protocol: {{ default "all" .protocol | quote }}
+  {{- end }}
+  ingressSecurityRules:
+  {{- range $security.ingress }}
+    - source: {{ .source | quote }}
+      protocol: {{ default "6" .protocol | quote }}
+      {{- if (.port) }}
+      tcpOptions:
+        destinationPortRange:
+          min: {{ .port }}
+          max: {{ .port }}
+      {{- end }}
+  {{- end }}
+{{- end }}

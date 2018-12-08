@@ -1,0 +1,14 @@
+# # # NodePool - OCI containerengine nodepool resource
+# #
+# apiVersion: ocice.oracle.com/v1alpha1
+# kind: NodePool
+# metadata:
+#   name: nodepool-{{ .Values.cluster_name }}
+# spec:
+#   compartmentRef: {{ .Values.compartment }}
+#   clusterRef: cluster-{{ .Values.cluster_name }}
+#   subnetRefs: {{ .Values.node_pool_subnets }}
+#   kubernetesVersion: {{ .Values.kubernetes_version }}
+#   nodeImageName: {{ .Values.node_image }}
+#   nodeShape: {{ .Values.node_shape }}
+#   quantityPerSubnet: {{ .Values.node_quantity_per_subnet }}

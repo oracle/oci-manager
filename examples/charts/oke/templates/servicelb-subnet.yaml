@@ -1,0 +1,19 @@
+{{- $root := . -}}
+{{ range $i, $e := until (int .Values.availability_domains) }}
+{{-  $ad := $i | add 1 -}}
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Subnet
+metadata:
+  name: {{ $root.Values.cluster_name }}-lb-{{ $ad }}
+  namespace: {{ $root.Values.namespace }}
+spec:
+  compartmentRef: {{ $root.Values.compartment }}
+  vcnRef: {{ $root.Values.virtual_network }}
+  availabilityDomain: {{ $root.Values.ad_prefix }}:{{ $root.Values.region | upper }}-AD-{{ $ad }}
+  cidrBlock: 10.0.{{ $ad }}.0/24
+  dnsLabel: {{ $root.Values.cluster_name }}lb{{ $ad }}
+  routetableRef: routetable1
+  securityrulesetRefs:
+  - securityruleset1
+---
+{{end}}

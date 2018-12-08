@@ -1,0 +1,8 @@
+apiVersion: oci.oracle.com/v1
+kind: VirtualNetwork
+metadata:
+  name: {{ .Values.compartment }}.virtualnetwork.{{ .Chart.Name }}
+spec:
+  displayName: {{ .Chart.Name }}
+  compartmentRef: {{ .Values.compartment }}
+  cidrBlock: {{ default "10.0.0.0/16" .Values.cidr }}

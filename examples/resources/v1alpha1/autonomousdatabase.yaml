@@ -1,0 +1,9 @@
+apiVersion: ocidb.oracle.com/v1alpha1
+kind: AutonomousDatabase
+metadata:
+  name: example
+spec:
+  compartmentRef: default
+  cpuCoreCount: 1
+  dataStorageSizeInTBs: 1
+

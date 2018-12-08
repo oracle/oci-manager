@@ -1,0 +1,45 @@
+# defaults and configuration of oci resources
+#
+# instance setup/user_data is in files dir
+#
+
+# change these first 2 values
+compartment: #change-me
+ssh_authorized_keys: #change-me
+# rest of values should work by default
+cluster_name: c1
+region: phx # PHX or US-ASHBURN
+ad_prefix: yhkn
+namespace: default
+virtual_network: vcn1
+cidr_block: 10.0.0.0/16
+availability_domains: 3
+
+# instance config
+shape: VM.Standard1.1
+image: Oracle-Linux-7.4-2018.02.21-1
+# multiply by availablity_domains to get total instance count
+instances_per_availability_domain: 1
+
+# cloud-init userdata (gets executed when the instance boots)
+userdata_file: files/userdata.sh
+# used in object naming convention and related to what gets installed in userdata
+service_name: httpd
+
+# load-balancer config
+lb_shape: 100Mbps
+lb_is_private: false
+# TODO: use convention for subnets in lb template
+lb_subnets: '["subnet-phx-1", "subnet-phx-2", "subnet-phx-3"]'
+lb_backend_policy: ROUND_ROBIN      # ROUND_ROBIN, LEAST_CONNECTIONS, IP_HASH
+lb_backend_protocol: HTTP           # HTTP, HTTP2, TCP
+lb_backend_health_path: /index.html
+lb_backend_health_return_code: 200
+lb_backend_port: 80
+lb_listener_port: 443
+lb_listener_protocol: HTTP          # HTTP does HTTPS when cert is used
+
+# simple self-signed cert for example only
+certificate_cert_file: files/server.crt
+certificate_private_key_file: files/private.key
+certificate_passphrase: test

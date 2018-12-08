@@ -1,0 +1,9 @@
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: InternetGateway
+metadata:
+  name: ig1
+  namespace: {{ .Values.namespace }}
+spec:
+  compartmentRef: {{ .Values.compartment }}
+  vcnRef: {{ .Values.virtual_network }}
+  isEnabled: true

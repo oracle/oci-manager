@@ -1,0 +1,18 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := .Values.compartmentRef -}}
+{{- range .Values.databases }}
+---
+apiVersion: ocidb.oracle.com/v1alpha1
+kind: AutonomousDatabase
+metadata:
+  name: {{ .name }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  compartmentRef: {{ default $compartment .compartmentRef }}
+  displayName: {{ default .name .displayName }}
+  cpuCoreCount: {{ default "1" .cpuCoreCount }}
+  dataStorageSizeInTBs: {{ default "1" .dataStorageSizeInTBs }}
+{{- end }}

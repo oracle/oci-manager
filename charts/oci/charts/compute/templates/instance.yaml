@@ -1,0 +1,29 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $name := default $release .Values.name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $region := .Values.region -}}
+{{- $shape := .Values.shape -}}
+{{- $image := .Values.image -}}
+{{- range $key, $value := .Values.instances }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Instance
+metadata:
+  name: {{ $name }}-{{ $key }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  displayName: {{ $name }}-{{ $key }}
+  compartmentRef: {{ $compartment }}
+  subnetRef: {{ $value.subnet }}
+  availabilityDomain: {{ $region }}-{{ $value.ad }}
+  shape: {{ default $shape $value.shape| quote }}
+  image: {{ default $image $value.image | quote }}
+  {{- with .metadata }}
+  metadata:
+    {{ if (.ssh_authorized_keys) }}ssh_authorized_keys: {{ quote .ssh_authorized_keys }}{{ end }}
+    {{ if (.user_data) }}user_data: {{ .user_data | b64enc }}{{ end }}
+  {{- end }}
+{{- end }}

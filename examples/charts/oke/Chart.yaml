@@ -1,0 +1,20 @@
+apiVersion: v1
+name: oke
+description: A Helm chart for deploying OKE-prerequisites (network stack, dynamic group, policy) for OKE)
+version: 0.1.0
+appVersion: 3.11.0
+icon: https://github.com/kubernetes/kubernetes/blob/master/logo/logo.svg
+keywords:
+- oracle
+- cloud
+- kubernetes
+- clusters
+- OKE
+home: https://github.com/oracle/oci-manager
+sources:
+- https://github.com/oracle/oci-manager/examples/charts/oke
+url: http://10.3.65.45:8080/oke/oke.tgz
+maintainers:
+- name: mike schwankl
+  email: mike.schwankl@oracle.com
+engine: gotpl

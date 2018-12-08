@@ -1,0 +1,64 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  name: lbexample
+  namespace: default
+spec:
+  computeSelector: 
+    app: test
+  labelWeightMap:
+    v1.0: 1
+    v0.9: 99
+  backendPort: 80
+  listeners:
+    - port: 80
+      protocol: HTTP 
+    - port: 443
+      protocol: HTTP 
+      sslCertificate:
+        certificate: |
+          -----BEGIN CERTIFICATE-----
+          MIICcTCCAdoCCQDnRB4dU5e8bDANBgkqhkiG9w0BAQUFADB9MQswCQYDVQQGEwJV
+          UzELMAkGA1UECAwCVVQxDjAMBgNVBAcMBXNhbmR5MQswCQYDVQQKDAJuYTELMAkG
+          A1UECwwCbmExFTATBgNVBAMMDGF1dG9rdWJlLmNvbTEgMB4GCSqGSIb3DQEJARYR
+          bWlrZUBzY2h3YW5rbC5uZXQwHhcNMTgwNDA1MTM0MjQ4WhcNMTkwNDA1MTM0MjQ4
+          WjB9MQswCQYDVQQGEwJVUzELMAkGA1UECAwCVVQxDjAMBgNVBAcMBXNhbmR5MQsw
+          CQYDVQQKDAJuYTELMAkGA1UECwwCbmExFTATBgNVBAMMDGF1dG9rdWJlLmNvbTEg
+          MB4GCSqGSIb3DQEJARYRbWlrZUBzY2h3YW5rbC5uZXQwgZ8wDQYJKoZIhvcNAQEB
+          BQADgY0AMIGJAoGBANaKUHJdB4fOIcX+YbuwEY97q/bWCcigx8m4g/9BAHQno4dN
+          2seZh8be5do2jqz5zCCHWxBlGRNQmdZ+HdBYtHjdCALGZY99UCq906NKQh3lfLwY
+          N6xn8N3EWWxZBcFsZB9KBK8yTgP9ZD8lLsNzTt8g31VhnxDcQNL+1e1fGw6ZAgMB
+          AAEwDQYJKoZIhvcNAQEFBQADgYEAsfzy6yWgBiW4oEcpSjRCxP8KLS7R9BNU6Gs2
+          U9VjlURHp9Vro8LXkXjQkPtACBDcGSsWqkh5/jefc/JlQrWPq4yccxhzC4wZ5smB
+          Nnz10dw+1APZ3yu3kL0KBAZxFrT22GXEIe6IAXho1WIJv/h45MfkrdP9FkxH2Kq3
+          90pgIcM=
+          -----END CERTIFICATE-----
+        privateKey: |
+          -----BEGIN RSA PRIVATE KEY-----
+          Proc-Type: 4,ENCRYPTED
+          DEK-Info: DES-EDE3-CBC,39B012B7D6D13BDB
+           
+          f6JmqbpNZoUrRondm/eZ2ABJPiDPCPnAUa8THTlYr2FzJG1JFwqmJatWjHgDV3Of
+          1RJr4B6wVRCWgOX1nqlFSnoL5lLeWZEveuP4e1gty0Mz78/yDh7ueEEXNlYab7cI
+          Gtax8OFnSo7QBQubNKa45Qd3GfDltxSapxYd65R4GlRaSLq259g1bIXu/jhrJKjY
+          boV5dieI3eOAR/GMdR4B6MXsy1nPJi1RywDfnYrRIRrAXF3fOpK4cpxwFxkTeAYs
+          jp9tElXJ3BCoNTSS1oHLhKYgbcopMR8n7CJNAl+ze/Uy0/uQ3h43eYDwFbOVVXS0
+          RAXPyq/y1iPZ9EaXb3O6Xo1eKugtBah5+HQBsT2O/CgSBtLf7rwKZxQgEekv4Zgp
+          9bzrJHoOtemXcK+tr4evDDlOxJ+lDZfyKzZtc+MM6JMjLnYOcT2kRO3bF3+UWhhg
+          Ydvkkm3Godeoc447mhJZTmotMjYRtAURqbwmKC+UxYG0QPPCxbxw7/g04Xab79np
+          z7rHvYbvCm3CAsvSKwKAPu2pWNPzLKSQSo5y/qfvwsqnhJ5Fd1CY+ZQBYgj/n5IW
+          mUByLop876eysh+gUYPZNPQxpKqSOYQDQjSY8nBkT6qyJyuXVq34/0kTggr2TgIv
+          ZtFhuzpsmNzJubnNuAhOp36HP2fKfpgyyyDzcGpVQUnZwRKyvBLAMi3cuMaMelm+
+          ZpMbEaW9CnJkhQt0RrRkQCH7sETdr6vNBPvksjYWMViAe81jECfRCvJKwtDhfCkQ
+          tIJKEkomfiYf8b/XZDDpIKSc2GZT9gwg1jwrPkA+3sTfMx5tjo2RZw==
+          -----END RSA PRIVATE KEY-----
+        passphrase: test
+  bandwidthMbps: 100Mbps
+  balanceMode: ROUND_ROBIN
+  isPrivate: false
+  healthCheck:
+    urlPath: /index.html
+    returnCode: 200
+    port: 80
+    protocol: HTTP
+  

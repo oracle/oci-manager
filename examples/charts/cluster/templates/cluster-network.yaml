@@ -1,0 +1,9 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Network
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+spec:
+  cidrBlock: {{ .Values.network.cidr }}

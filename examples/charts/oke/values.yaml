@@ -1,0 +1,26 @@
+# defaults and configuration of oci resources
+#
+# instance setup/user_data is in files dir
+#
+
+# change these first 2 values
+root_compartment_id: change-me # ocid1.tenancy.oc1..aaaaaaaaivunxtet7jd6ac5tzsupbwe46yfr5sdwylszixetb3qmbtf45gca
+compartment:  change-me # mike-dev
+
+# rest of values should work by default
+cluster_name: c1
+region: phx # PHX or US-ASHBURN
+ad_prefix: yhkn
+namespace: default
+virtual_network: vcn1
+cidr_block: 10.0.0.0/16
+availability_domains: 3
+
+kubernetes_version: v1.11.1
+node_shape: VM.Standard1.4
+node_image: Oracle-Linux-7.5
+node_quantity_per_subnet: 1
+
+# TODO: create loop in templates to generate names
+service_lb_subnets: '["c1-lb-1", "c1-lb-2"]'
+node_pool_subnets:  '["c1-node-1", "c1-node-2", "c1-node-3"]'

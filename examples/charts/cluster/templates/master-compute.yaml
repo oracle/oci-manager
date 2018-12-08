@@ -1,0 +1,26 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Compute
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+  annotations:
+    computes.cloud.k8s.io/image: {{ default "Canonical-Ubuntu-16.04-2018.06.18-0" .Values.master.image }}
+    computes.cloud.k8s.io/shape: {{ default "VM.Standard1.1" .Values.master.shape }}
+spec:
+  network: {{ .Release.Name }}
+  securitySelector:
+    security: master
+  replicas: {{ .Values.master.replicas }}
+  template:
+    osType: {{ default "ubuntu" .Values.master.osType }}
+    osVersion: {{ default "16.04" .Values.master.osVersion | quote }}
+    sshKeys: ["{{ .Values.master.ssh }}"]
+    userData: |-
+{{ .Files.Get "scripts/userdata.sh" | indent 6 }}
+
+      kubeadm init --pod-network-cidr={{ default "10.244.0.0/16" .Values.podCidr }} --token={{ .Values.token }}
+
+      export KUBECONFIG=/etc/kubernetes/admin.conf
+      kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml

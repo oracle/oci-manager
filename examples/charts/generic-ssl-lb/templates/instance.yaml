@@ -1,0 +1,22 @@
+{{- $root := . -}}
+{{ range $i, $e := until (int .Values.availability_domains) }}
+{{-  $ad := $i | add 1 -}}
+{{   range $j, $e := until (int $root.Values.instances_per_availability_domain) }}
+{{-     $instance := $j | add 1 -}}
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Instance
+metadata:
+  name: i-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}-{{ $ad }}-{{ $instance }}
+  namespace: {{ $root.Values.namespace }}
+spec:
+  compartmentRef: {{ $root.Values.compartment }}
+  availabilityDomain: {{ $root.Values.ad_prefix }}:{{ $root.Values.region | upper }}-AD-{{ $ad }}
+  subnetRef: subnet-{{ $root.Values.region | lower }}-{{ $ad }}
+  shape: {{ $root.Values.shape }}
+  image: {{ $root.Values.image }}
+  metadata:
+    ssh_authorized_keys: {{ $root.Values.ssh_authorized_keys }}
+    user_data: {{ $root.Files.Get $root.Values.userdata_file | b64enc }}
+---
+{{   end}}
+{{ end }}

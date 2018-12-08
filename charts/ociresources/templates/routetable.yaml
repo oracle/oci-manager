@@ -1,0 +1,20 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- range .Values.routeTables }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: RouteTable
+metadata:
+  name: {{ .name }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  compartmentRef: {{ default .name .compartmentRef }}
+  vcnRef: {{ default .name .vcnRef }}
+  routeRules:
+  {{- range .routeRules }}
+    - cidrBlock: {{ .cidrBlock | quote }}
+      networkEntityId: {{ default .name .networkEntityId }}
+  {{- end }}
+{{- end }}

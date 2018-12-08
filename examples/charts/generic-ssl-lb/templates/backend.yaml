@@ -1,0 +1,19 @@
+{{- $root := . -}}
+{{ range $i, $e := until (int .Values.availability_domains) }}
+{{-  $ad := $i | add 1 -}}
+{{   range $j, $e := until (int $root.Values.instances_per_availability_domain) }}
+{{-     $instance := $j | add 1 -}}
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: Backend
+metadata:
+  name: backend-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}-{{ $ad }}-{{ $instance }}
+  namespace: {{ $root.Values.namespace }}
+spec:
+  backendSetRef: backendset-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}-{{ $ad }}
+  loadBalancerRef: lb-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}
+  instanceRef: i-{{ $root.Values.cluster_name }}-{{ $root.Values.service_name }}-{{ $ad }}-{{ $instance }}
+  port: {{ $root.Values.lb_backend_port }}
+  weight: 1
+---
+{{   end}}
+{{ end }}

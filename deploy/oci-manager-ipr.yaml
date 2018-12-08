@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: oci-manager
+  labels:
+    app: oci-manager
+spec:
+  selector:
+    matchLabels:
+      app: oci-manager
+  serviceName: oci-manager-service
+  template:
+    metadata:
+      labels:
+        app: oci-manager
+    spec:
+      containers:
+        - image: phx.ocir.io/k8sfed/oci-manager:latest
+          imagePullPolicy: "Always"
+          name: oci-manager
+          command:
+            - /oci-manager
+            - --logtostderr=true
+            - --v=10
+            - --ipr=true

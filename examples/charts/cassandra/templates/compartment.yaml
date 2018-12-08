@@ -1,0 +1,9 @@
+apiVersion: ociidentity.oracle.com/v1alpha1
+kind: Compartment
+metadata:
+  name: {{ .Values.compartment }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    assembly: {{ .Values.compartment }}
+spec:
+  description: {{ .Values.compartment }} Compartment

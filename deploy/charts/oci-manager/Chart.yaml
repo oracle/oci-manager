@@ -1,0 +1,4 @@
+apiVersion: v1
+description: OCI Manager
+name: oci-manager
+version: v0.0.1

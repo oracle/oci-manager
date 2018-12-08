@@ -1,0 +1,18 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- $compartment := default .Release.Namespace .Values.compartment -}}
+{{- $region := .Values.region -}}
+{{- $vcn := .Values.vcn -}}
+{{- if not .Values.vcn }}
+{{- if .Values.cidr }}
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Vcn
+metadata:
+  name: {{ $release }}
+  {{ template "oci.labels" . }}
+spec:
+  compartmentRef: {{ $compartment }}
+  cidrBlock: {{ .Values.cidr | quote }}
+  dnsLabel: {{ if (.Values.dns) }}{{ .Values.dns }}{{ else }}{{ $release | replace "-" "" | lower | trunc 15 }}{{ end }}
+{{- end }}
+{{- end }}

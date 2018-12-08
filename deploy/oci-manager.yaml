@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: oci-manager
+  namespace: oci-system
+  labels:
+    app: oci-manager
+spec:
+  selector:
+    matchLabels:
+      app: oci-manager
+  serviceName: oci-manager-service
+  template:
+    metadata:
+      labels:
+        app: oci-manager
+    spec:
+      containers:
+        - image: phx.ocir.io/k8sfed/oci-manager:latest
+          imagePullPolicy: "Always"
+          name: oci-manager
+          command:
+            - /oci-manager
+            - --logtostderr=true
+            - --v=1
+          volumeMounts:
+            - name: ociconfig-volume
+              mountPath: /etc/oci
+              readOnly: true
+            - name: apikey-volume
+              mountPath: /etc/oci-apikey
+              readOnly: true
+          env:
+            - name: OCICONFIG
+              value: "/etc/oci/config"
+      volumes:
+        - name: ociconfig-volume
+          configMap:
+            name: ociconfig
+        - name: apikey-volume
+          secret:
+            secretName: apikey

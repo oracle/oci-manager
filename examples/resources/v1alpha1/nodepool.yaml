@@ -1,0 +1,15 @@
+apiVersion: ocice.oracle.com/v1alpha1
+kind: NodePool
+metadata:
+  name: example-cluster1-nodepool1
+spec:
+  compartmentRef: default
+  clusterRef: example-cluster1
+  subnetRefs:
+    - c1-node-1
+    - c1-node-2
+    - c1-node-3
+  kubernetesVersion: v1.11.1
+  nodeImageName: Oracle-Linux-7.5
+  nodeShape: VM.Standard2.4
+  quantityPerSubnet: 1

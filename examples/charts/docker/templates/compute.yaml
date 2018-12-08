@@ -1,0 +1,23 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Compute
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+  annotations:
+    computes.cloud.k8s.io/image: {{ default "Canonical-Ubuntu-16.04-2018.06.18-0" .Values.image }}
+    computes.cloud.k8s.io/shape: {{ default "VM.Standard1.1" .Values.shape }}
+spec:
+  network: {{ .Release.Name }}
+  securitySelector:
+    security: {{ .Release.Name }}
+  replicas: {{ .Values.replicas }}
+  template:
+    osType: {{ default "ubuntu" .Values.osType }}
+    osVersion: {{ default "16.04" .Values.osVersion | quote }}
+    sshKeys: ["{{ .Values.ssh }}"]
+    userData: |-
+{{ .Files.Get "scripts/userdata.sh" | indent 6 }}
+
+      {{ .Values.execute }}

@@ -1,0 +1,51 @@
+
+required = [
+  "k8s.io/code-generator/cmd/client-gen",
+  "k8s.io/code-generator/cmd/conversion-gen",
+  "k8s.io/code-generator/cmd/deepcopy-gen",
+  "k8s.io/code-generator/cmd/defaulter-gen",
+  "k8s.io/code-generator/cmd/informer-gen",
+  "k8s.io/code-generator/cmd/lister-gen"
+]
+
+[prune]
+  go-tests = true
+  unused-packages = true
+
+[[override]]
+  revision = "b58fc7edb82e0c6ffc9b8aef61813c7261b785d4"
+  name = "k8s.io/gengo"
+
+[[constraint]]
+  branch = "release-1.11"
+  name = "k8s.io/code-generator"
+
+[[constraint]]
+  name = "github.com/golang/glog"
+
+[[constraint]]
+  name = "github.com/oracle/oci-go-sdk"
+  version = "3.0.0"
+
+[[constraint]]
+  name = "golang.org/x/time"
+
+[[constraint]]
+  branch = "release-1.11"
+  name = "k8s.io/api"
+
+[[constraint]]
+  branch = "release-1.11"
+  name = "k8s.io/apiextensions-apiserver"
+
+[[constraint]]
+  branch = "release-1.11"
+  name = "k8s.io/apimachinery"
+
+[[constraint]]
+  branch = "release-8.0"
+  name = "k8s.io/client-go"
+
+[[constraint]]
+  branch = "release-1.11"
+  name = "k8s.io/kubernetes"

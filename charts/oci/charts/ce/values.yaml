@@ -1,0 +1,17 @@
+# Default values for ce.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# compartment: default
+# network: default
+# version: v1.11.1
+# pods: 10.244.0.0/16
+# services: 10.96.0.0/16
+# subnet: lb
+#
+# nodepools:
+#   default:
+#     image: Oracle-Linux-7.5
+#     shape: VM.Standard2.4
+#     subnet: node
+#     count: 1

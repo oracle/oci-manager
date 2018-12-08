@@ -1,0 +1,23 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Compute
+metadata:
+  name: {{ .Release.Name }}-worker
+  labels:
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+  annotations:
+    computes.cloud.k8s.io/image: {{ default "Canonical-Ubuntu-16.04-2018.06.18-0" .Values.worker.image }}
+    computes.cloud.k8s.io/shape: {{ default "VM.Standard1.2" .Values.worker.shape }}
+spec:
+  network: {{ .Release.Name }}
+  securitySelector:
+    security: worker
+  replicas: {{ .Values.worker.replicas }}
+  template:
+    osType: {{ default "ubuntu" .Values.worker.osType }}
+    osVersion: {{ default "16.04" .Values.worker.osVersion | quote }}
+    sshKeys: ["{{ .Values.worker.ssh }}"]
+    userData: |-
+{{ .Files.Get "scripts/userdata.sh" | indent 6 }}
+
+      kubeadm join --token={{ .Values.token }} --discovery-token-unsafe-skip-ca-verification {{ .Release.Name }}-0.{{ .Release.Name }}11.{{ .Release.Name }}.oraclevcn.com:6443

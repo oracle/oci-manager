@@ -1,0 +1,27 @@
+# // Backend The configuration of a backend server that is a member of a load balancer backend set.
+# // For more information, see Managing Backend Servers (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingbackendservers.htm).
+
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: Backend
+metadata:
+  name: example-backend1
+spec:
+  loadBalancerRef: example-lb
+  instanceRef: example-instance1
+  backendSetRef: example-backendset
+  protocol: HTTP
+  port: 80
+  weight: 1
+
+---
+apiVersion: ocilb.oracle.com/v1alpha1
+kind: Backend
+metadata:
+  name: example-backend2
+spec:
+  loadBalancerRef: example-lb
+  instanceRef: example-instance2
+  backendSetRef: example-backendset
+  protocol: HTTP
+  port: 80
+  weight: 1

@@ -1,0 +1,17 @@
+{{- $chart := .Chart.Name -}}
+{{- $release := .Release.Name -}}
+{{- range .Values.vcns }}
+---
+apiVersion: ocicore.oracle.com/v1alpha1
+kind: Vcn
+metadata:
+  name: {{ .name }}
+  labels:
+    chart: {{ $chart }}
+    release: {{ $release }}
+spec:
+  compartmentRef: {{ .compartmentRef }}
+  displayName: {{ default .name .displayName }}
+  dnsLabel: {{ default .name .dnsLabel }}
+  cidrBlock: {{ .cidrBlock | quote }}
+{{- end }}

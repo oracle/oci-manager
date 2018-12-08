@@ -1,0 +1,15 @@
+# # # Cluster - OCI containerengine cluster resource
+# #
+# apiVersion: ocice.oracle.com/v1alpha1
+# kind: Cluster
+# metadata:
+#   name: cluster-{{ .Values.cluster_name }}
+# spec:
+#   compartmentRef: {{ .Values.compartment }}
+#   vcnRef: {{ .Values.virtual_network }}
+#   serviceLbSubnetRefs: {{ .Values.service_lb_subnets }}
+#   kubernetesVersion: {{ .Values.kubernetes_version }}
+#   options:
+#     kubernetesNetworkConfig:
+#       podsCidr: 10.244.0.0/16
+#       servicesCidr: 10.96.0.0/16

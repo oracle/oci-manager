@@ -1,0 +1,13 @@
+apiVersion: oci.oracle.com/v1
+kind: Subnet
+metadata:
+  name: {{ .Values.compartment }}.subnet.{{ .Chart.Name }}
+spec:
+  displayName: {{ .Chart.Name }}
+  compartmentRef: {{ .Values.compartment }}
+  virtualnetworkRef: {{ .Values.compartment }}.virtualnetwork.{{ .Chart.Name }}
+  availabilityDomain: yhkn:PHX-AD-1
+  cidrBlock: 10.0.10.0/24
+  routetableRef: {{ .Values.compartment }}.routetable.{{ .Chart.Name }}
+  securityrulesetRefs:
+  - {{ .Values.compartment }}.securityruleset.{{ .Chart.Name }}

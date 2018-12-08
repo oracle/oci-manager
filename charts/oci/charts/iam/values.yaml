@@ -1,0 +1,11 @@
+# Default values for oci iam.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+# - either create compartment object manually before invoking chart or uncomment it here
+# - note the object will be deleted when you delete the chart
+# - the real OCI compartment will NOT be affected - no create, update or delete is supported
+# - this will be replaced with `kubectl label namespace foo compartment=foo`
+#
+# compartment: default

@@ -1,0 +1,24 @@
+apiVersion: oci.oracle.com/v1
+kind: SecurityRuleSet
+metadata:
+  name:  {{ .Values.compartment }}.securityruleset.{{ .Chart.Name }}
+spec:
+  displayName: {{ .Chart.Name }}
+  compartmentRef: {{ .Values.compartment }}
+  virtualnetworkRef: {{ .Values.compartment }}.virtualnetwork.{{ .Chart.Name }}
+  egressSecurityRules:
+  - destination: 0.0.0.0/0
+    protocol: all
+  ingressSecurityRules:
+  - source: 0.0.0.0/0
+    protocol: '6'
+    tcpOptions:
+      destinationPortRange:
+        min: 22
+        max: 22
+  - source: 0.0.0.0/0
+    protocol: '6'
+    tcpOptions:
+      destinationPortRange:
+        min: 80
+        max: 80

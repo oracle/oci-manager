@@ -1,0 +1,71 @@
+# helm install charts/oci -f examples/oci/cluster.yaml --name <name>
+
+network:
+  region: yhkn:PHX
+  cidr: 10.0.0.0/16
+  gateways:
+    internet:
+      internet: true
+  routes:
+    public:
+      - cidr: 0.0.0.0/0
+        gateway: internet
+  security:
+    lb:
+      egress:
+        default:
+          destination: 0.0.0.0/0
+          protocol: all
+      ingress:
+        local:
+          source: 10.0.0.0/16
+          protocol: all
+        http:
+          source: 0.0.0.0/0
+          port: 80
+        https:
+          source: 0.0.0.0/0
+          port: 443
+    node:
+      egress:
+        default:
+          destination: 0.0.0.0/0
+          protocol: all
+      ingress:
+        local:
+          source: 10.0.0.0/16
+          protocol: all
+        ssh:
+          source: 0.0.0.0/0
+          port: 22
+  subnets:
+    lb:
+      security: lb
+      route: public
+      ranges:
+        - ad: AD-1
+          cidr: 10.0.101.0/24
+        - ad: AD-2
+          cidr: 10.0.102.0/24
+    node:
+      security: node
+      route: public
+      ranges:
+        - ad: AD-1
+          cidr: 10.0.111.0/24
+        - ad: AD-2
+          cidr: 10.0.112.0/24
+        - ad: AD-3
+          cidr: 10.0.113.0/24
+
+ce:
+  version: v1.11.5
+  pods: 10.244.0.0/16
+  services: 10.96.0.0/16
+  subnet: lb
+  nodepools:
+    default:
+      image: Oracle-Linux-7.5
+      shape: VM.Standard2.4
+      subnet: node
+      count: 1

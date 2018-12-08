@@ -1,0 +1,14 @@
+apiVersion: cloud.k8s.io/v1alpha1
+kind: Security
+metadata:
+  name: master
+  labels:
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+    security: master
+spec:
+  networkSelector:
+    release: {{ .Release.Name }}
+  ingress:
+    - "0.0.0.0/0 tcp 22"
+    - "0.0.0.0/0 tcp 6443"

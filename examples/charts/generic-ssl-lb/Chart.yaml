@@ -1,0 +1,19 @@
+apiVersion: v1
+name: apache-oci-crd
+description: A Helm chart for deploying multi-node multi-availability-domain Apache ontop of OCI Custom Resources
+version: 0.1.0
+appVersion: 3.11.0
+icon: https://commons.wikimedia.org/wiki/Category:Apache_HTTP_Server_logos#/media/File:Apache_HTTPD.png
+keywords:
+- apache
+- httpd
+- oci
+- oracle
+home: https://gitlab-odx.oracle.com/mschwank/oci-manager
+sources:
+- https://gitlab-odx.oracle.com/mschwank/oci-manager/examples/charts/apache-oci-crd
+url: http://10.3.65.45:8080/cassandra-oci-crd/apache-oci-crd.tgz
+maintainers:
+- name: mike schwankl
+  email: mike.schwankl@oracle.com
+engine: gotpl

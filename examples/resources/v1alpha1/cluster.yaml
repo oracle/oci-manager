@@ -1,0 +1,15 @@
+apiVersion: ocice.oracle.com/v1alpha1
+kind: Cluster
+metadata:
+  name: example-cluster1
+spec:
+  compartmentRef: default
+  vcnRef: example
+  serviceLbSubnetRefs:
+    - c1-lb-1
+    - c1-lb-2
+  kubernetesVersion: v1.11.5
+  options:
+    kubernetesNetworkConfig:
+      podsCidr: 10.244.0.0/16
+      servicesCidr: 10.96.0.0/16
