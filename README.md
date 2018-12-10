@@ -17,12 +17,12 @@ If you think you've found a bug, please [raise an issue][2].
 
 ## Development
 
-See [DEVELOPMENT](DEVELOPMENT.md) for instructions how to build the project.
+See [DEVELOPMENT.md](DEVELOPMENT.md) for instructions how to build the project.
 
 
 ## Contributing
 
-OCI Manager is an open source project. See [CONTRIBUTING](CONTRIBUTING.md) for
+OCI Manager is an open source project. See [CONTRIBUTING.md](CONTRIBUTING.md) for
 details.
 
 Oracle gratefully acknowledges the contributions to this project that have been made by the community.
@@ -33,7 +33,8 @@ Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
 
 OCI Manager is licensed under the Apache License 2.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+- See [LICENSE](LICENSE) for more details.
+- See [LICENSES.deps](LICENSES.deps) for third-party license details.
 
 
 [1]: https://cloud.oracle.com/iaas
